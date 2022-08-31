@@ -32,6 +32,14 @@ jobs:
         if: github.base_ref == 'master'
         run: echo "MERGE_STRATEGY=merge" >> $GITHUB_ENV
 
+      - name: Set source branch deletion strategy (feature branches)
+        if: github.base_ref == 'develop'
+        run: echo "DELETE_SOURCE_BRANCH=true" >> $GITHUB_ENV
+
+      - name: Set source branch deletion strategy (develop -> master)
+        if: github.base_ref == 'master'
+        run: echo "DELETE_SOURCE_BRANCH=false" >> $GITHUB_ENV
+
       - name: Integration check
         uses: squalrus/merge-bot@v0.4.5
         with:
@@ -42,4 +50,4 @@ jobs:
           blocking_labels: do not merge
           checks_enabled: true
           method: ${{ env.MERGE_STRATEGY }}
-          delete_source_branch: true
+          delete_source_branch: ${{ env.DELETE_SOURCE_BRANCH }}
