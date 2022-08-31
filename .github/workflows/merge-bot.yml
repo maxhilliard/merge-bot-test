@@ -16,16 +16,16 @@ on:
 
 jobs:
   merge:
-    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
+    if: github.base_ref == 'refs/heads/develop' || github.base_ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     name: Merge
     steps:
       - name: Set DEVELOP merge strategy
-        if: github.ref == 'refs/heads/develop'
+        if: github.base_ref == 'refs/heads/develop'
         run: echo "MERGE_STRATEGY=squash" >> $GITHUB_ENV
 
       - name: Set MASTER merge strategy
-        if: github.ref == 'refs/heads/master'
+        if: github.base_ref == 'refs/heads/master'
         run: echo "MERGE_STRATEGY=merge" >> $GITHUB_ENV
 
       - name: Integration check
