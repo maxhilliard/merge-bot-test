@@ -16,26 +16,30 @@ on:
 
 jobs:
   merge:
-    if: github.base_ref == 'refs/heads/develop' || github.base_ref == 'refs/heads/master'
+    # if: github.base_ref == 'refs/heads/develop' || github.base_ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     name: Merge
     steps:
-      - name: Set DEVELOP merge strategy
-        if: github.base_ref == 'refs/heads/develop'
-        run: echo "MERGE_STRATEGY=squash" >> $GITHUB_ENV
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      # - name: Set DEVELOP merge strategy
+      #   if: github.base_ref == 'refs/heads/develop'
+      #   run: echo "MERGE_STRATEGY=squash" >> $GITHUB_ENV
 
-      - name: Set MASTER merge strategy
-        if: github.base_ref == 'refs/heads/master'
-        run: echo "MERGE_STRATEGY=merge" >> $GITHUB_ENV
+      # - name: Set MASTER merge strategy
+      #   if: github.base_ref == 'refs/heads/master'
+      #   run: echo "MERGE_STRATEGY=merge" >> $GITHUB_ENV
 
-      - name: Integration check
-        uses: squalrus/merge-bot@v0.4.5
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          test: true
-          reviewers: true
-          labels: merge
-          blocking_labels: do not merge
-          checks_enabled: true
-          method: ${{ env.MERGE_STRATEGY }}
-          delete_source_branch: true
+      # - name: Integration check
+      #   uses: squalrus/merge-bot@v0.4.5
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     test: true
+      #     reviewers: true
+      #     labels: merge
+      #     blocking_labels: do not merge
+      #     checks_enabled: true
+      #     method: ${{ env.MERGE_STRATEGY }}
+      #     delete_source_branch: true
