@@ -2,4 +2,9 @@
 
 Quick n dirty repo to test merge bot action
 
-This is a readme update - delete me
+# TODO list
+
+- What happens when label added before status checks are complete?
+- Test
+  - status checks
+  - reviewers - are ALL reviews required?
